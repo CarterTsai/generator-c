@@ -1,0 +1,12 @@
+# Makefile for the driver (for Linux Kernel 2.6)
+
+#KBUILD_CFLAGS+='-g3'
+#KBUILD_AFLAGS += '-gdwarf-2'
+#KBUILD_CFLAGS +='-O0'
+
+obj-m	+= <%= _(project_name).underscored() %>.o
+
+all:
+		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+clean:
+		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
