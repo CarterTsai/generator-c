@@ -28,6 +28,8 @@ static ssize_t <%= _(project_name).underscored() %>_read(struct file *filp, char
 static ssize_t <%= _(project_name).underscored() %>_write(struct file *filp, const char __user *buf, 
                            size_t count, loff_t *f_pos); 
 
+static long <%= _(project_name).underscored() %>_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+
 void <%= _(project_name).underscored() %>_exit(void);
 int <%= _(project_name).underscored() %>_init(void);
 
@@ -35,8 +37,10 @@ int <%= _(project_name).underscored() %>_init(void);
 /* Structure that declares the common */
 /* file access fcuntions */
 struct file_operations <%= _(project_name).underscored() %>_fops = { 
+    owner  : THIS_MODULE,
     read   : <%= _(project_name).underscored() %>_read,
     write  : <%= _(project_name).underscored() %>_write,
+    unlocked_ioctl  : <%= _(project_name).underscored() %>_ioctl,
     open   : <%= _(project_name).underscored() %>_open,
     release: <%= _(project_name).underscored() %>_release
 };
@@ -66,6 +70,13 @@ static ssize_t <%= _(project_name).underscored() %>_write(struct file *filp, con
                            size_t count, loff_t *f_pos)
 {
     printk(KERN_INFO "<%= project_name  %> : write operation\n");
+    return 0;
+}
+
+static long <%= _(project_name).underscored() %>_ioctl(struct file *filp, unsigned int cmd, 
+                            unsigned long arg)
+{
+    printk(KERN_INFO "<%= project_name  %> : ioctl operation\n");
     return 0;
 }
 
